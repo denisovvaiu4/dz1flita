@@ -1,32 +1,50 @@
 #include<stdio.h>
 #include<math.h>
-int Enter(char r){
-    int number = 0;
-    while (r >= '0' && r <= '1'){
-        number = number*10+r - '0';
+int Enter(char r) {
+    int number = 0, fl = 0, flz = 0, k = 0;
+    while ((r != ' ') && (r != '\n')) {
+        if (r != '-')
+            number = number * 10 + r - '0';
+        if ((r != '1') && (r != '0') && (r != '-'))
+            fl = 1;
+        if ((r == '-') && (k == 0))
+            flz = 1;
+        if ((r == '-') && (k != 0))
+            fl = 1;
         r = getchar();
+        k++;
     }
-        return number;
+    if (flz == 1)
+        number = number * (-1);
+    if (fl == 1)
+        number = 9;
+    return number;
 }
-int Perevod(int number){
+
+int Perevod(int number) {
     int i = 0;
     int rez = 0;
-    while (number != 0){
-        rez += number%2*pow(2, i);
+    while (number != 0) {
+        rez += number % 2 * pow(2, i);
         number /= 10;
         i++;
     }
     return rez;
 }
-int main(){
+int main() {
     int number, rez;
     char r;
     int i = 0;
     printf("Enter binary numbers through space: \n");
-    while ((r = getchar()) != '\n'){
+    while ((r = getchar()) != '\n') {
         number = Enter(r);
-        rez = Perevod(number);
-        printf("Binary number %d: % 15d Decimal number: %d\n", i, number, rez );
+        if (number == 9)
+            printf("Vse xyinya, davay po novoy\n");
+        else
+        {
+            rez = Perevod(number);
+            printf("Binary number %d: % 15d Decimal number: %d\n", i, number, rez);
+        }
     }
     return 0;
 }
